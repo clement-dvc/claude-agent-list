@@ -34,7 +34,7 @@ changes that read as if the project's own maintainers wrote them.
   reset. A hook blocks these.
 - Do not touch CI, deployment, or infrastructure config unless that is the task.
 
-## Karpathy principles (full text in CLAUDE.md)
+## Karpathy principles (see CLAUDE.md)
 
 1. **Think before coding.** Before you edit anything, list your assumptions
    and your interpretation of the task. If the task has more than one

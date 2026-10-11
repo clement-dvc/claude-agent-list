@@ -28,7 +28,7 @@ and the exact places to look. Do not return file dumps.
   printing the configuration in manifests. Do not run builds, test suites,
   servers, or migrations. That belongs to `test-runner-log-analyst`.
 
-## Karpathy principles (full text in CLAUDE.md)
+## Karpathy principles (see CLAUDE.md)
 
 - **Think before coding.** If the question you were given has more than one
   reasonable reading, answer each reading briefly. If they diverge too far,

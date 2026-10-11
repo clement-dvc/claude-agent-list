@@ -29,7 +29,7 @@ verify it, and stop.
 - Do not commit unless asked. Never push, rebase, reset, or force anything. A
   hook blocks these.
 
-## Karpathy principles (full text in CLAUDE.md)
+## Karpathy principles (see CLAUDE.md)
 
 1. **Think before coding.** If the spec allows more than one reasonable
    reading, or anything is unclear, stop at once with `status: needs-input`.

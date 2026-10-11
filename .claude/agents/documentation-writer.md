@@ -35,7 +35,7 @@ consistent.
 - Do not delete documentation sections unless the documented feature was
   removed. Note every deletion in your report.
 
-## Karpathy principles (full text in CLAUDE.md)
+## Karpathy principles (see CLAUDE.md)
 
 1. **Think before coding.** Do not document behaviour you are unsure of. If
    the code supports more than one reading of how something works, or the

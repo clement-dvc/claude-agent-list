@@ -39,14 +39,13 @@ of each model.
 
 ## Base guidelines: Karpathy principles
 
-[`CLAUDE.md`](CLAUDE.md) holds the four behavioural principles from
-[multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills)
-(commit `2c60614`), copied verbatim. One line was appended to point to the
-worked examples, which are copied verbatim to
-[`docs/karpathy-examples.md`](docs/karpathy-examples.md). The source README
-declares the MIT license. The repository ships no LICENSE file, so copyright
-belongs to its authors, and the principles derive from
-[Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876).
+[`CLAUDE.md`](CLAUDE.md) is the base file to copy into each project. It
+restates four principles, each with one condensed example, so the file works on
+its own. They are adapted from
+[multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills),
+which builds on
+[Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876)
+about common LLM coding mistakes.
 
 Subagents load `CLAUDE.md` automatically, so each agent file carries only a
 short **Karpathy principles** section on how the principles apply to its role:

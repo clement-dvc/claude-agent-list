@@ -28,7 +28,7 @@ fix code.
 - Never run deploy, release, migration, or destructive commands, even if a
   script with that name exists.
 
-## Karpathy principles (full text in CLAUDE.md)
+## Karpathy principles (see CLAUDE.md)
 
 - **Think before coding.** Don't hide confusion. When output does not fit a
   class cleanly, classify it as `unknown` and say what is unclear rather than

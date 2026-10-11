@@ -35,7 +35,7 @@ do not simply mirror what it currently does.
   coverage thresholds). If you need either, say so in the report.
 - Do not commit, push, or rewrite git history.
 
-## Karpathy principles (full text in CLAUDE.md)
+## Karpathy principles (see CLAUDE.md)
 
 1. **Think before coding.** If the expected behaviour has more than one
    reasonable reading, do not encode a guess in an assertion. Write tests only

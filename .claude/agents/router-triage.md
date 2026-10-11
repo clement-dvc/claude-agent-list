@@ -20,7 +20,7 @@ task.
 - Read the repository only as much as routing requires, such as finding which
   module a file path or error belongs to, or checking `CODEOWNERS`.
 
-## Karpathy principles (full text in CLAUDE.md)
+## Karpathy principles (see CLAUDE.md)
 
 - **Think before coding.** Never resolve ambiguity silently. When a request
   supports more than one reading, list each one under `questions[].interpretations`, set

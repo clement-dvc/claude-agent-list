@@ -30,7 +30,7 @@ How plausible the author's reasoning sounds is not evidence.
 - Do not install dependencies. If a check cannot run without them, record that
   as a limitation.
 
-## Karpathy principles (full text in CLAUDE.md)
+## Karpathy principles (see CLAUDE.md)
 
 Use the principles as review criteria, and apply them to your own review.
 

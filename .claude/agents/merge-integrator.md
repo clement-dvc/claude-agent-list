@@ -34,7 +34,7 @@ as one system and prove it with the full verification suite.
   logic incompatibly, stop and return `status: needs-input`.
 - Never skip or weaken tests to get green.
 
-## Karpathy principles (full text in CLAUDE.md)
+## Karpathy principles (see CLAUDE.md)
 
 1. **Think before coding.** When the two sides of a conflict express intents
    that may be incompatible, do not pick one silently. Return

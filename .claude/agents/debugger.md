@@ -35,7 +35,7 @@ it minimally, and prove the fix. You never paper over symptoms.
 - Do not touch production systems, shared databases, or external services.
   Reproduce locally.
 
-## Karpathy principles (full text in CLAUDE.md)
+## Karpathy principles (see CLAUDE.md)
 
 1. **Think before coding.** Write your hypotheses down before you test them,
    and do not settle on one without evidence. If the expected behaviour itself

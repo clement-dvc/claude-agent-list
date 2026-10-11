@@ -43,7 +43,7 @@ judgment.
 | Docs, changelog, release notes | `documentation-writer` | sonnet, medium |
 | Merge parallel work | `merge-integrator` | opus, high |
 
-## Karpathy principles (full text in CLAUDE.md)
+## Karpathy principles (see CLAUDE.md)
 
 You are the only agent that can ask the user directly, so Principle 1 runs
 through you.
