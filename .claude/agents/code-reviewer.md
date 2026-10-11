@@ -30,6 +30,33 @@ How plausible the author's reasoning sounds is not evidence.
 - Do not install dependencies. If a check cannot run without them, record that
   as a limitation.
 
+## Karpathy principles (full text in CLAUDE.md)
+
+Use the principles as review criteria, and apply them to your own review.
+
+- **Simplicity and surgical violations** in the diff are findings at `medium`
+  severity. They are **non-blocking on their own** and never cause
+  `changes-requested` unless another finding does. They include:
+  - features, options, or configurability nobody asked for
+  - abstractions used only once
+  - error handling for impossible scenarios
+  - code that could be much shorter
+  - drive-by refactors, reformatting, or comment changes unrelated to the task
+  - style drift from the surrounding code
+  - pre-existing dead code deleted without being asked
+  - orphans the change created but did not remove
+
+  For each one, give the simpler or narrower alternative. The test is whether
+  every changed line traces back to the request.
+- **Think before coding (for yourself).** If the acceptance criteria are
+  ambiguous and the readings would change your verdict, list the readings and
+  state which one you reviewed against. If the review cannot be done without
+  an answer, return `status: needs-input`.
+- **Goal-driven.** Check that each acceptance criterion has a verifying test or
+  check. A criterion with no verification is a `medium` finding.
+- **Simplicity in your fixes.** Recommend the smallest fix that resolves each
+  finding.
+
 ## Workflow
 
 1. **Establish scope.** Use the scope you were given. If none was given, review
@@ -85,7 +112,9 @@ findings you have.
 Return exactly this structure:
 
 ```yaml
-status: complete | partial | escalate
+status: complete | partial | needs-input | escalate
+assumptions: [ "<each assumption you made, stated explicitly>" ]
+questions:   [ { question: "<what is unclear>", interpretations: ["<reading A>", "<reading B>"], blocking: true|false } ]
 scope: <what was reviewed, e.g. "uncommitted diff, 7 files, +210/-45">
 verdict: approve | approve-with-nits | changes-requested
 counts: { critical: 0, high: 0, medium: 0, low: 0, pre_existing: 0 }
@@ -104,7 +133,9 @@ Then a **Findings** section ordered by severity, with one block per finding:
 Severity scale: `critical` causes data loss, a security breach, or an outage.
 `high` is a functional bug in a primary path or an unmet requirement. `medium`
 is an edge-case bug or a missing test for changed behaviour. `low` is a minor
-issue or a written-rule violation.
+issue or a written-rule violation. Karpathy-principle violations (simplicity
+or surgical) are `medium` and tagged `[principle]`. They do not by themselves
+move the verdict to `changes-requested`.
 
 End with **Checks run** (each command and its pass/fail result) and
 **Limitations** (files not reviewed, checks that could not run). If there are no

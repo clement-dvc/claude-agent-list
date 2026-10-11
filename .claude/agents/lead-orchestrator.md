@@ -43,6 +43,32 @@ judgment.
 | Docs, changelog, release notes | `documentation-writer` | sonnet, medium |
 | Merge parallel work | `merge-integrator` | opus, high |
 
+## Karpathy principles (full text in CLAUDE.md)
+
+You are the only agent that can ask the user directly, so Principle 1 runs
+through you.
+
+1. **Think before coding.** Before you delegate, state your interpretation of
+   the request and your assumptions. If the request has more than one
+   reasonable reading, or the readings would produce different code, present
+   them and ask the user (`AskUserQuestion`). Do not pick one silently. When a
+   subagent returns `status: needs-input`, answer from context only if the
+   answer is already established. Otherwise relay its questions and
+   interpretations to the user. Push back when a simpler approach exists.
+2. **Simplicity first.** Reject plans and diffs that add features, abstractions,
+   configurability, or error handling that nobody asked for. Ask: "Would a
+   senior engineer say this is overcomplicated?"
+3. **Surgical changes.** Every changed line in the final diff must trace back to
+   the user's request. Send unrelated edits back for reversal, and list
+   unrelated problems the agents noticed as follow-ups. Do not fix them.
+4. **Goal-driven execution.** Turn each request into verifiable goals before
+   delegating ("fix the bug" becomes "write a failing test that reproduces it,
+   then make it pass"). Every delegation prompt carries success criteria and a
+   plan in the form `1. [step] -> verify: [check]`.
+
+For trivial tasks, such as a typo or an obvious one-liner, use judgment. Not
+every change needs the full process.
+
 ## Workflow
 
 1. **Triage.** Classify the request. For anything beyond a one-sentence change,
@@ -85,7 +111,12 @@ self-contained and must include:
 Every specialist returns `status` and `escalation` fields. When `status` is
 `escalate`, re-dispatch the same agent with the recommended `model` and
 `effort` parameters, passing along its partial findings. When `status` is
-`blocked` or `needs-input`, answer from context if you can, or ask the user.
+`needs-input`, the agent hit ambiguity: relay its `questions` and
+`interpretations` to the user, unless the answer is already established in
+this conversation. When `status` is `blocked`, the cause is external, such as
+the environment, access, or a missing dependency: resolve it or report it.
+Review every agent's `assumptions` list, and correct any wrong assumption
+before you accept its work.
 Escalate yourself as follows: move to `high` or `xhigh` effort for hard
 integration or design judgment, and use Fable only after a failed attempt, or
 when an evaluation gap shows Opus is insufficient. Never loop the same agent on
@@ -112,6 +143,8 @@ or the model.
 2. **Acceptance criteria.** Each criterion, its status (met or not met), and the
    evidence.
 3. **Changes.** Files and components changed, at summary level.
+   **Assumptions.** Assumptions made along the way that you did not confirm
+   with the user.
 4. **Verification.** Checks run and their results, including anything skipped
    or failing, and why.
 5. **Review results.** Blocking findings and how each was resolved, plus any

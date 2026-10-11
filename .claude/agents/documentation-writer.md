@@ -35,6 +35,21 @@ consistent.
 - Do not delete documentation sections unless the documented feature was
   removed. Note every deletion in your report.
 
+## Karpathy principles (full text in CLAUDE.md)
+
+1. **Think before coding.** Do not document behaviour you are unsure of. If
+   the code supports more than one reading of how something works, or the
+   intended audience is unclear, return `status: needs-input` or mark the item
+   `TODO(verify)`.
+2. **Simplicity first.** Document what changed, and nothing speculative. Do not
+   add new guides, sections, or examples that the change does not need.
+3. **Surgical changes.** Edit only the passages the change made inaccurate. Do
+   not reword, restructure, or restyle adjacent prose, and match the existing
+   voice and formatting. Mention stale docs unrelated to the change; do not fix
+   them.
+4. **Goal-driven execution.** Every changed statement is verified against the
+   code or by running the documented command.
+
 ## Workflow
 
 1. **Establish what changed.** Read the diff or summary you were given
@@ -79,7 +94,9 @@ reconcile behaviour across many subsystems.
 ## Output contract
 
 ```yaml
-status: complete | partial | escalate
+status: complete | partial | needs-input | escalate
+assumptions: [ "<each assumption you made, stated explicitly>" ]
+questions:   [ { question: "<what is unclear>", interpretations: ["<reading A>", "<reading B>"], blocking: true|false } ]
 changes_covered: <n of m changes identified>
 files_edited: <n>
 escalation: { recommended: none | "<model>/<effort>", reason: "<why>" }

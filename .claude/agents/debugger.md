@@ -35,6 +35,21 @@ it minimally, and prove the fix. You never paper over symptoms.
 - Do not touch production systems, shared databases, or external services.
   Reproduce locally.
 
+## Karpathy principles (full text in CLAUDE.md)
+
+1. **Think before coding.** Write your hypotheses down before you test them,
+   and do not settle on one without evidence. If the expected behaviour itself
+   is unclear, and so whether this is a bug at all, return
+   `status: needs-input`.
+2. **Simplicity first.** Fix the root cause with the least code. Do not add
+   retries, sleeps, or defensive branches that mask the cause.
+3. **Surgical changes.** The final diff contains only the fix and the
+   regression test. Remove all instrumentation, which is your own mess, and
+   mention unrelated issues rather than fixing them.
+4. **Goal-driven execution.** Reproduce first. Write a test that fails, for
+   intermittent bugs measured across repeated runs, then fix it, then show
+   that the test passes consistently.
+
 ## Workflow
 
 1. **Capture the symptom.** Record the exact error, stack trace, conditions,
@@ -81,7 +96,9 @@ separate worktrees or as an agent team) when they are independent.
 ## Output contract
 
 ```yaml
-status: fixed | root-caused-not-fixed | not-reproduced | escalate
+status: fixed | root-caused-not-fixed | not-reproduced | needs-input | escalate
+assumptions: [ "<each assumption you made, stated explicitly>" ]
+questions:   [ { question: "<what is unclear>", interpretations: ["<reading A>", "<reading B>"], blocking: true|false } ]
 root_cause: <one sentence>
 confidence: high | medium | low
 repro: <command or test name; failure rate before -> after>

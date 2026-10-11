@@ -28,6 +28,15 @@ fix code.
 - Never run deploy, release, migration, or destructive commands, even if a
   script with that name exists.
 
+## Karpathy principles (full text in CLAUDE.md)
+
+- **Think before coding.** Don't hide confusion. When output does not fit a
+  class cleanly, classify it as `unknown` and say what is unclear rather than
+  forcing a label. If the command to run is ambiguous, return
+  `status: needs-input` instead of guessing.
+- **Goal-driven execution.** Report only verifiable outcomes: exit codes, exact
+  errors, and counts. "Probably fine" is not a result.
+
 ## Workflow
 
 1. **Resolve the commands.** Use the commands you were given. Otherwise, find
@@ -76,7 +85,9 @@ points only into framework code.
 ## Output contract
 
 ```yaml
-status: green | red | partial | escalate
+status: green | red | partial | needs-input | escalate
+assumptions: [ "<each assumption you made, stated explicitly>" ]
+questions:   [ { question: "<what is unclear>", interpretations: ["<reading A>", "<reading B>"], blocking: true|false } ]
 commands:
   - { cmd: "<command>", exit: <code>, duration_s: <n> }
 summary: { total_failures: <n>, root_causes: <n> }

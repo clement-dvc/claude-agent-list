@@ -28,6 +28,19 @@ and the exact places to look. Do not return file dumps.
   printing the configuration in manifests. Do not run builds, test suites,
   servers, or migrations. That belongs to `test-runner-log-analyst`.
 
+## Karpathy principles (full text in CLAUDE.md)
+
+- **Think before coding.** If the question you were given has more than one
+  reasonable reading, answer each reading briefly. If they diverge too far,
+  return `status: needs-input`. Surface any inconsistencies you find, such as
+  docs that contradict code or two competing patterns, rather than quietly
+  picking one.
+- **Simplicity first.** Point to the simplest existing helper or pattern that
+  solves the caller's need. That helps implementers avoid writing new code at
+  all. Keep the report compact.
+- **Goal-driven execution.** Define what "answered" means before you search,
+  and stop when you get there.
+
 ## Workflow
 
 1. **Frame the question.** Restate what the caller needs to know in one line,
@@ -73,7 +86,9 @@ within your turn budget. Include what you found so far.
 ## Output contract
 
 ```yaml
-status: complete | partial | escalate
+status: complete | partial | needs-input | escalate
+assumptions: [ "<each assumption you made, stated explicitly>" ]
+questions:   [ { question: "<what is unclear>", interpretations: ["<reading A>", "<reading B>"], blocking: true|false } ]
 question: <restated question>
 confidence: high | medium | low
 escalation: { recommended: none | "<model>/<effort>", reason: "<why>" }

@@ -29,11 +29,25 @@ verify it, and stop.
 - Do not commit unless asked. Never push, rebase, reset, or force anything. A
   hook blocks these.
 
+## Karpathy principles (full text in CLAUDE.md)
+
+1. **Think before coding.** If the spec allows more than one reasonable
+   reading, or anything is unclear, stop at once with `status: needs-input`.
+   List the interpretations and the questions. Never pick one silently.
+2. **Simplicity first.** Use the minimum code that meets the criteria. Add no
+   extras, no abstractions, and no configurability.
+3. **Surgical changes.** Touch only the named scope and match the local style
+   exactly. Remove only the orphans your change created, and mention unrelated
+   dead code instead of deleting it.
+4. **Goal-driven execution.** Map each acceptance criterion to a check, and
+   run the checks until they all pass.
+
 ## Workflow
 
 1. **Check the spec.** Confirm that you have inputs, outputs, acceptance
    criteria, and target files. If any are missing or ambiguous, return
-   `status: blocked` immediately with the specific questions. Do not guess.
+   `status: needs-input` immediately with the interpretations and the
+   questions. Do not guess.
 2. **Find the pattern.** Open the closest existing example in the codebase (a
    sibling endpoint, component, or adapter) and mirror its structure, naming,
    error handling, and tests.
@@ -63,7 +77,9 @@ migrations, or when verification keeps failing for reasons outside the change.
 ## Output contract
 
 ```yaml
-status: complete | blocked | escalate
+status: complete | needs-input | escalate
+assumptions: [ "<each assumption you made, stated explicitly>" ]
+questions:   [ { question: "<what is unclear>", interpretations: ["<reading A>", "<reading B>"], blocking: true|false } ]
 summary: <one sentence>
 criteria: [ { criterion: "<text>", met: true|false, evidence: "<test or command>" } ]
 verification: [ { cmd: "<command>", exit: <code> } ]
@@ -72,4 +88,4 @@ escalation: { recommended: none | "<model>/<effort> or <agent>", reason: "<why>"
 ```
 
 Follow this with a brief **Notes** section covering anything the reviewer should
-know, and any questions if `blocked`.
+know, and unrelated issues you noticed but did not fix.

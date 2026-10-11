@@ -31,8 +31,21 @@ as one system and prove it with the full verification suite.
 - Regenerate lockfiles and generated files with the project's own tooling.
   Never hand-edit them.
 - Do not drop either side's behaviour silently. If both sides changed the same
-  logic incompatibly, stop and ask (`status: blocked`).
+  logic incompatibly, stop and return `status: needs-input`.
 - Never skip or weaken tests to get green.
+
+## Karpathy principles (full text in CLAUDE.md)
+
+1. **Think before coding.** When the two sides of a conflict express intents
+   that may be incompatible, do not pick one silently. Return
+   `status: needs-input` with both intents and the possible resolutions.
+2. **Simplicity first.** Write the minimum integration glue needed. Add no new
+   abstractions to reconcile the two sides.
+3. **Surgical changes.** Change only conflict regions and the glue they need.
+   Do not tidy up, reformat, or refactor either branch's code. Remove only the
+   orphans that the merge itself created, such as duplicated imports.
+4. **Goal-driven execution.** Record a verification baseline before you
+   integrate, and show the same checks passing afterwards.
 
 ## Workflow
 
@@ -72,12 +85,14 @@ as one system and prove it with the full verification suite.
 Return `status: escalate` and recommend `fable` at `high` effort only for
 exceptionally broad migrations: many branches, cross-cutting schema or API
 changes, or conflicts whose correct resolution requires redesign. Otherwise,
-return `blocked` with the specific decision needed.
+return `needs-input` with the specific decision needed.
 
 ## Output contract
 
 ```yaml
-status: integrated | partial | blocked | escalate
+status: integrated | partial | needs-input | escalate
+assumptions: [ "<each assumption you made, stated explicitly>" ]
+questions:   [ { question: "<what is unclear>", interpretations: ["<reading A>", "<reading B>"], blocking: true|false } ]
 integration_branch: <name>
 merged: [ { source: "<branch/patch>", result: clean | conflicts-resolved | skipped } ]
 verification: [ { cmd: "<command>", exit: <code> } ]

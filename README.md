@@ -37,6 +37,32 @@ name and effort were kept.
 Models use aliases (`opus`, `sonnet`, `haiku`), so they track the latest version
 of each model.
 
+## Base guidelines: Karpathy principles
+
+[`CLAUDE.md`](CLAUDE.md) holds the four behavioural principles from
+[multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills)
+(commit `2c60614`), copied verbatim. One line was appended to point to the
+worked examples, which are copied verbatim to
+[`docs/karpathy-examples.md`](docs/karpathy-examples.md). The source README
+declares the MIT license. The repository ships no LICENSE file, so copyright
+belongs to its authors, and the principles derive from
+[Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876).
+
+Subagents load `CLAUDE.md` automatically, so each agent file carries only a
+short **Karpathy principles** section on how the principles apply to its role:
+
+| Principle | How the agents apply it |
+| --- | --- |
+| 1. Think before coding | A subagent can't ask you directly, so on real ambiguity it stops with `status: needs-input` and returns its `questions` and `interpretations`. The lead relays them to you. Every output contract lists `assumptions` explicitly. |
+| 2. Simplicity first | Implementers write the minimum code that meets the criteria. The architect designs only for today's requirements. Reviewers recommend the smallest fix. |
+| 3. Surgical changes | Writers touch only what the task needs, match the existing style, and remove only the orphans they created. Unrelated issues are reported, not fixed. |
+| 4. Goal-driven execution | Tasks become verifiable goals planned as `[step] -> verify: [check]`: reproduce a bug before fixing it, and keep tests green before and after a refactor. |
+
+`code-reviewer` reports simplicity and surgical violations as `medium` findings
+tagged `[principle]`. They don't block approval on their own. `security-reviewer`
+treats validation of untrusted input at a trust boundary as a real scenario,
+not as "error handling for impossible scenarios".
+
 ## Escalation
 
 A subagent file can name only one model. When a subagent hits its escalation

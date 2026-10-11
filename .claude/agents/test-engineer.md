@@ -35,6 +35,22 @@ do not simply mirror what it currently does.
   coverage thresholds). If you need either, say so in the report.
 - Do not commit, push, or rewrite git history.
 
+## Karpathy principles (full text in CLAUDE.md)
+
+1. **Think before coding.** If the expected behaviour has more than one
+   reasonable reading, do not encode a guess in an assertion. Write tests only
+   for the unambiguous parts, and return `status: needs-input` with the
+   interpretations for the rest.
+2. **Simplicity first.** Write the fewest tests that prove the behaviour. Do
+   not build test frameworks, deep helper hierarchies, or fixtures for
+   scenarios that cannot happen.
+3. **Surgical changes.** Add tests next to the existing ones in the same style.
+   Do not reformat or refactor tests you did not need to touch.
+4. **Goal-driven execution.** This is your core job. For a bug, write a test
+   that reproduces it and confirm it fails for the right reason. For validation,
+   write tests for invalid inputs. For a refactor, confirm the tests pass both
+   before and after.
+
 ## Workflow
 
 1. **Understand the target.** Read the spec or acceptance criteria you were
@@ -85,7 +101,9 @@ derive expected outcomes without design decisions.
 ## Output contract
 
 ```yaml
-status: complete | partial | blocked | escalate
+status: complete | partial | blocked | needs-input | escalate
+assumptions: [ "<each assumption you made, stated explicitly>" ]
+questions:   [ { question: "<what is unclear>", interpretations: ["<reading A>", "<reading B>"], blocking: true|false } ]
 target: <unit/feature under test>
 tests_added: <n>
 tests_modified: <n>

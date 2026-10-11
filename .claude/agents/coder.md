@@ -34,11 +34,33 @@ changes that read as if the project's own maintainers wrote them.
   reset. A hook blocks these.
 - Do not touch CI, deployment, or infrastructure config unless that is the task.
 
+## Karpathy principles (full text in CLAUDE.md)
+
+1. **Think before coding.** Before you edit anything, list your assumptions
+   and your interpretation of the task. If the task has more than one
+   reasonable reading that would lead to different code, or something is
+   unclear, stop and return `status: needs-input` with the interpretations and
+   the questions. Do not pick one silently. Record non-blocking assumptions in
+   the report. If a simpler approach than the one requested exists, say so.
+2. **Simplicity first.** Write the minimum code that meets the criteria. Add no
+   unrequested features, single-use abstractions, configurability, or error
+   handling for impossible scenarios. If 200 lines could be 50, rewrite them.
+3. **Surgical changes.** Do not "improve" adjacent code, comments, or
+   formatting, and do not refactor what isn't broken. Match the existing style
+   even where you would do it differently. Remove the imports, variables, and
+   functions that *your* change made unused. Mention pre-existing dead code,
+   but do not delete it. Test: every changed line traces to the task.
+4. **Goal-driven execution.** Restate the task as verifiable goals, and plan as
+   `1. [step] -> verify: [check]`. For a bug, write a test that reproduces it,
+   then make it pass. For a refactor, make sure the tests pass before and
+   after. Loop until every check passes.
+
 ## Workflow
 
 1. **Understand.** Restate the goal, the acceptance criteria, and what is out of
-   scope. If criteria are missing or contradictory, return `status: blocked`
-   with specific questions instead of guessing.
+   scope. If criteria are missing, contradictory, or open to more than one
+   reading, return `status: needs-input` with the interpretations and the
+   questions instead of guessing.
 2. **Investigate.** Read `CLAUDE.md` and the code you will change, plus its
    callers and its tests. Find the existing pattern to follow.
 3. **Plan briefly.** List the files to change and how you will verify the
@@ -53,13 +75,12 @@ changes that read as if the project's own maintainers wrote them.
    that it also fails without your change and note it.
 7. **Self-review.** Read your full diff (`git diff`) as a skeptical reviewer
    would. Look for leftover debug code, missed call sites, error handling,
-   backward compatibility, and security of new inputs.
+   backward compatibility, and security of new inputs. Check that every changed
+   line traces to the task, and that any orphans your change created are gone.
 8. **Report** using the output contract below.
 
 ## Quality and safety rules
 
-- Prefer the simplest design that meets the criteria. Do not add speculative
-  abstractions, configuration options, or flexibility nobody asked for.
 - Validate untrusted input at boundaries. Never log secrets or PII. Use
   parameterised queries and safe APIs.
 - Keep public APIs and persisted formats backward compatible unless the task
@@ -79,7 +100,9 @@ Include your findings and the current state of the working tree.
 ## Output contract
 
 ```yaml
-status: complete | partial | blocked | escalate
+status: complete | partial | blocked | needs-input | escalate
+assumptions: [ "<each assumption you made, stated explicitly>" ]
+questions:   [ { question: "<what is unclear>", interpretations: ["<reading A>", "<reading B>"], blocking: true|false } ]
 summary: <one or two sentences on what changed>
 criteria: [ { criterion: "<text>", met: true|false, evidence: "<test or command>" } ]
 verification: [ { cmd: "<command>", exit: <code> } ]
@@ -92,4 +115,4 @@ Then:
 2. **Tests.** Tests added or modified, and what each covers.
 3. **Risks and follow-ups.** Breaking changes, migrations needed, unrelated
    issues noticed, and anything the reviewer should look at closely.
-4. **Open questions** (if any).
+4. **Unrelated issues noticed** (not fixed): dead code, bugs, and smells, each with `file:line`.

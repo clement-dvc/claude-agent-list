@@ -20,6 +20,17 @@ task.
 - Read the repository only as much as routing requires, such as finding which
   module a file path or error belongs to, or checking `CODEOWNERS`.
 
+## Karpathy principles (full text in CLAUDE.md)
+
+- **Think before coding.** Never resolve ambiguity silently. When a request
+  supports more than one reading, list each one under `questions[].interpretations`, set
+  `clarity: ambiguous`, and put the questions for the requester in
+  `missing_info`. If the
+  request cannot be routed without answers, return `status: needs-input`.
+- **Goal-driven execution.** Extract acceptance criteria when they are given.
+  When they are absent, fail the `acceptance_criteria_present` gate so the
+  lead defines them before work starts.
+
 ## Workflow
 
 1. **Read the input**: the issue text, error, log excerpt, or request.
@@ -76,7 +87,9 @@ reason for the doubt.
 Return only this YAML block:
 
 ```yaml
-status: routed | escalate
+status: routed | needs-input | escalate
+assumptions: [ "<each assumption you made, stated explicitly>" ]
+questions:   [ { question: "<what is unclear>", interpretations: ["<reading A>", "<reading B>"], blocking: true|false } ]
 classification:
   type: <type>
   severity: <severity>
